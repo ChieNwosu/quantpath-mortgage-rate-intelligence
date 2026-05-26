@@ -245,8 +245,7 @@ If Dashboard KPI cards show `#REF!` or `#VALUE!`:
 
 ## Next Steps
 
-- **Phase 2 (R)**: Time-series analysis, ARIMA/ETS forecasting, structural break detection
-- **Phase 3 (SQL/Cloud)**: Ingest into AWS S3, query via Athena, join with additional economic indicators
-- **Future Extensions**: Tableau Public dashboard, Databricks lakehouse integration, AWS-aligned architecture
+- **Phase 2 (R)**: Time-series analysis — stationarity testing, rolling statistics, rate-regime analysis, seasonality checks (planned)
+- **Phase 3 (SQL)**: Structured data layer for querying and joining with additional economic indicators (planned)
 
 See the [`docs/roadmap.md`](../docs/roadmap.md) for the full multi-phase plan.

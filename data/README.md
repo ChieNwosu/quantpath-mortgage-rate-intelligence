@@ -62,5 +62,5 @@ The `Assumptions` sheet references the latest rate via the named range `Assump_B
 
 ## Future Phases
 
-- **Phase 2 (R)**: Time-series analysis, ARIMA/ETS forecasting, structural break detection
-- **Phase 3 (SQL/Cloud)**: Ingest into AWS S3, query via Athena, join with additional economic indicators
+- **Phase 2 (R)**: Time-series analysis — stationarity testing, rolling statistics, regime analysis, seasonality checks (planned)
+- **Phase 3 (SQL)**: Structured data layer for querying and joining with additional economic indicators (planned)

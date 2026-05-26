@@ -1,144 +1,73 @@
 # Phase 3: SQL / Cloud Data Layer
 
 **Status**: 🔲 Planned  
-**Timeline**: Fall 2026  
-**Tech Stack**: AWS S3, AWS Athena, SQL, Python (boto3)
+**Timeline**: TBD  
+**Tech Stack**: SQL (specific platform TBD)
 
 ---
 
 ## Overview
 
-Phase 3 will build a cloud-native data layer for scalable storage, querying, and integration with additional economic indicators.
+Phase 3 will build a structured data layer for querying and joining the mortgage rate series with additional economic context. This phase is a **future extension** — specific platform decisions (cloud provider, database engine, orchestration tools) have not been made.
 
-This phase is **not yet implemented**. This folder is a placeholder for future SQL scripts, Python ingestion scripts, and documentation.
+This phase is **not yet implemented**. This folder is a placeholder for future SQL scripts and documentation.
 
 ---
 
 ## Planned Objectives
 
-- Build AWS S3 bucket for raw FRED data storage
-- Set up AWS Glue Data Catalog for schema management
-- Configure AWS Athena for serverless SQL querying
-- Develop Python scripts for automated FRED data ingestion to S3
-- Write SQL queries for historical rate analysis, aggregations, and joins
-- Integrate additional FRED series (e.g., unemployment rate, GDP, inflation)
-- Document data pipeline architecture, SQL query library, and AWS setup guide
+- Centralized storage for FRED rate data and derived analytics
+- SQL queries for historical rate analysis, aggregations, and trend summaries
+- Potential integration with additional FRED series (e.g., unemployment rate, federal funds rate, inflation)
+- Documentation: data pipeline architecture and query library
 
 ---
 
 ## Planned Business Questions
 
-9. How do mortgage rates correlate with other macroeconomic indicators (unemployment, GDP, inflation)?
+9. How do mortgage rates correlate with other macroeconomic indicators?
 10. Can we identify leading indicators for mortgage rate movements?
 
 ---
 
-## Planned Tech Stack
+## Planned Tech Stack (Tentative)
 
-- **Storage**: AWS S3 (raw CSV files)
-- **Catalog**: AWS Glue Data Catalog (schema registry)
-- **Query**: AWS Athena (serverless SQL)
-- **Orchestration**: AWS Lambda or Step Functions for automated ingestion
-- **IAM**: Least-privilege access policies for S3 and Athena
-- **Python**: `boto3` for AWS SDK, `pandas` for data manipulation
+Platform decisions are not finalized. Options under consideration:
+
+- **SQL database**: PostgreSQL, SQLite, or cloud-native (AWS Athena, BigQuery)
+- **Storage**: Local CSV, S3, or equivalent cloud storage
+- **Ingestion**: Python scripts for FRED API data pulls
+- **Orchestration**: TBD based on complexity needs
+
+> **Note:** AWS, Databricks, Terraform, and other cloud-native tooling are aspirational ideas only — not committed or scoped.
 
 ---
 
-## Planned Folder Structure
+## Planned Folder Structure (Tentative)
 
 ```
 phase3_sql/
 ├── README.md                      # This file
 ├── sql/
-│   ├── create_tables.sql          # Athena table definitions
+│   ├── create_tables.sql          # Table definitions
 │   ├── historical_analysis.sql    # Historical rate analysis queries
-│   ├── correlation_analysis.sql   # Correlation with other indicators
 │   └── aggregations.sql           # Monthly/yearly aggregations
-├── python/
-│   ├── ingest_fred_to_s3.py       # FRED data ingestion to S3
-│   ├── setup_glue_catalog.py      # Glue Data Catalog setup
+├── scripts/
+│   ├── ingest_fred.py             # FRED data ingestion
 │   └── requirements.txt           # Python dependencies
-├── terraform/                     # Infrastructure-as-code (optional)
-│   ├── main.tf                    # Terraform main configuration
-│   ├── s3.tf                      # S3 bucket configuration
-│   ├── glue.tf                    # Glue Data Catalog configuration
-│   └── athena.tf                  # Athena configuration
 └── docs/
     ├── architecture.md            # Data pipeline architecture
-    ├── setup_guide.md             # AWS setup guide
     └── query_library.md           # SQL query library
 ```
 
 ---
 
-## Planned Deliverables
+## Example Queries (Planned)
 
-- [ ] AWS S3 bucket for raw FRED data storage
-- [ ] AWS Glue Data Catalog for schema management
-- [ ] AWS Athena for SQL querying
-- [ ] Python scripts for automated FRED data ingestion to S3
-- [ ] SQL queries for historical rate analysis, aggregations, and joins
-- [ ] Integration with additional FRED series (e.g., unemployment rate, GDP, inflation)
-- [ ] Documentation: data pipeline architecture, SQL query library, AWS setup guide
-
----
-
-## Planned AWS Architecture
-
-```
-┌─────────────────┐
-│  FRED API       │
-└────────┬────────┘
-         │
-         │ Python (boto3)
-         │
-         ▼
-┌─────────────────┐
-│  AWS S3         │  ← Raw CSV files
-│  (Data Lake)    │
-└────────┬────────┘
-         │
-         │ AWS Glue Crawler
-         │
-         ▼
-┌─────────────────┐
-│  AWS Glue       │  ← Schema registry
-│  Data Catalog   │
-└────────┬────────┘
-         │
-         │ SQL queries
-         │
-         ▼
-┌─────────────────┐
-│  AWS Athena     │  ← Serverless SQL
-└─────────────────┘
-```
-
----
-
-## Planned Data Sources
-
-### Primary Series
-
-- **MORTGAGE30US**: 30-Year Fixed Rate Mortgage Average
-
-### Additional Series (Planned)
-
-- **UNRATE**: Unemployment Rate
-- **GDP**: Gross Domestic Product
-- **CPIAUCSL**: Consumer Price Index (Inflation)
-- **FEDFUNDS**: Federal Funds Effective Rate
-- **DGS10**: 10-Year Treasury Constant Maturity Rate
-
----
-
-## Planned SQL Queries
-
-### Historical Rate Analysis
+### Monthly Average Mortgage Rate
 
 ```sql
--- Monthly average mortgage rate
-SELECT 
+SELECT
     DATE_TRUNC('month', date) AS month,
     AVG(mortgage30us) AS avg_rate
 FROM mortgage_rates
@@ -146,56 +75,31 @@ GROUP BY DATE_TRUNC('month', date)
 ORDER BY month;
 ```
 
-### Correlation Analysis
+### Rate Change Detection
 
 ```sql
--- Correlation between mortgage rates and unemployment
-SELECT 
-    CORR(m.mortgage30us, u.unrate) AS correlation
-FROM mortgage_rates m
-JOIN unemployment u ON m.date = u.date;
+SELECT
+    date,
+    mortgage30us,
+    LAG(mortgage30us) OVER (ORDER BY date) AS prev_rate,
+    mortgage30us - LAG(mortgage30us) OVER (ORDER BY date) AS weekly_change
+FROM mortgage_rates
+WHERE ABS(mortgage30us - LAG(mortgage30us) OVER (ORDER BY date)) > 0.25
+ORDER BY date;
 ```
-
-### Rate Shock Scenarios
-
-```sql
--- Count of weeks where rate changed by more than 0.50%
-SELECT 
-    COUNT(*) AS shock_weeks
-FROM (
-    SELECT 
-        date,
-        mortgage30us,
-        LAG(mortgage30us) OVER (ORDER BY date) AS prev_rate,
-        ABS(mortgage30us - LAG(mortgage30us) OVER (ORDER BY date)) AS rate_change
-    FROM mortgage_rates
-) subquery
-WHERE rate_change > 0.50;
-```
-
----
-
-## Cost Considerations
-
-- **S3 storage**: ~$0.023/GB/month (Standard tier)
-- **Athena queries**: $5 per TB scanned
-- **Glue Crawler**: $0.44 per DPU-hour
-- **Lambda**: Free tier covers most ingestion workloads
-
-**Estimated monthly cost**: <$5 for this project's data volume.
 
 ---
 
 ## Status Disclaimer
 
-**This phase is planned but not yet implemented.** This folder is a placeholder to signal the multi-phase vision of the QuantPath Mortgage Rate Intelligence Stack. All content in this folder is aspirational and subject to change based on coursework requirements, technical constraints, and portfolio priorities.
+**This phase is planned but not yet implemented.** This folder is a placeholder to signal the multi-phase vision of the QuantPath Mortgage Rate Intelligence Stack.
+
+All content in this README is aspirational and subject to change based on coursework requirements, technical constraints, and portfolio priorities. Cloud platform decisions, cost analysis, and architecture diagrams will be developed when this phase is actively scoped.
 
 ---
 
 ## References
 
-- **AWS S3**: https://aws.amazon.com/s3/
-- **AWS Athena**: https://aws.amazon.com/athena/
-- **AWS Glue**: https://aws.amazon.com/glue/
 - **FRED API**: https://fred.stlouisfed.org/docs/api/fred/
-- **boto3 documentation**: https://boto3.amazonaws.com/v1/documentation/api/latest/index.html
+- **PostgreSQL**: https://www.postgresql.org/docs/
+- **AWS Athena**: https://aws.amazon.com/athena/ (exploratory only)

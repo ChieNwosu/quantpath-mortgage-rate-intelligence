@@ -148,7 +148,7 @@ Computes the loan amount affordable given a fixed monthly payment budget.
 | QA validation (32/32 checks passed) | ✅ Complete |
 | Documentation (README, CHANGELOG, data dictionary, formula reference) | ✅ Complete |
 | GitHub repository structure | ✅ Complete |
-| GitHub Pages project site | 🔲 In Progress |
+| GitHub Pages project site | 🔲 Planned (optional, may be added later) |
 
 ---
 
@@ -164,8 +164,7 @@ Computes the loan amount affordable given a fixed monthly payment budget.
 
 ## Next Steps
 
-- **Phase 2 (R)**: Time-series analysis, ARIMA/ETS forecasting, structural break detection, connection to Applied Time Series Analysis coursework at NCCU
-- **Phase 3 (SQL/Cloud)**: Ingest into AWS S3, query via Athena, join with additional economic indicators
-- **Future Extensions**: Tableau Public dashboard, Databricks lakehouse integration, AWS-aligned architecture
+- **Phase 2 (R)**: Time-series analysis — stationarity testing, rolling statistics, rate-regime analysis, seasonality checks; connects to Applied Time Series Analysis coursework at NCCU and IBM's Data Analytics with Excel and R Professional Certificate
+- **Phase 3 (SQL)**: Structured data layer for querying and joining with additional economic indicators (planned, platform TBD)
 
 See [`roadmap.md`](roadmap.md) for the full multi-phase plan.
