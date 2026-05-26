@@ -298,8 +298,8 @@ quantpath-mortgage-rate-intelligence/
 
 ## About the Author
 
-**Chen Wosu**  
-Graduate Student, Applied Time Series Analysis — National Chengchi University (NCCU)
+**Chiemela Joseph Nwosu**  
+Information Technology Student, Applied Data Analysis — North Carolina Central University (NCCU)
 
 This project demonstrates:
 - Financial modeling and dashboard design in Excel
@@ -329,7 +329,7 @@ This project is licensed under the MIT License. See `LICENSE` for details.
 ## Contact
 
 For questions, feedback, or collaboration opportunities:
-- **Email:** [Add your email here]
+- **Email:** [JosephCNwosu@yahoo.com]
 - **GitHub Issues:** [Open an issue](https://github.com/ChieNwosu/quantpath-mortgage-rate-intelligence/issues)
 
 ---
