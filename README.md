@@ -38,13 +38,15 @@ Phase 1 is a fully functional Excel workbook that answers five business question
 
 ## Workbook Preview
 
-> Screenshots are located in the [`screenshots/`](screenshots/) folder.
+Screenshots are stored in `screenshots/workbook/`.
 
-| Sheet | Preview |
+| Worksheet | Preview |
 |---|---|
-| Rate Shock Model | ![Rate Shock Model](screenshots/Rate Shock Model.png) |
-| Assumptions | ![Assumptions](screenshots/Assumptions.png) |
-| Project Map | ![Project Map](screenshots/Project Map.png) |
+| Project Map | ![Project Map worksheet](screenshots/workbook/Project_Map.png) |
+| Assumptions | ![Assumptions input control panel](screenshots/workbook/Assumptions.png) |
+| Rate Shock Model | ![Rate Shock Model worksheet](screenshots/workbook/Rate_Shock_Model.png) |
+| Refinance Analysis | ![Refinance Analysis worksheet](screenshots/workbook/Refinance_Analysis.png) |
+| Amortization QA | ![Amortization QA worksheet](screenshots/workbook/Amortization_QA.png) |
 
 ---
 
@@ -65,7 +67,13 @@ quantpath-mortgage-rate-intelligence/
 │   ├── Rate_Shock_Loan_Affordability_Refinance_Dashboard.xlsx
 │   └── README.md                      # Workbook guide and usage instructions
 │
-├── screenshots/                       # One PNG per workbook sheet
+├── screenshots/                       # Workbook worksheet screenshots
+│   └── workbook/
+│       ├── Amortization_QA.png
+│       ├── Assumptions.png
+│       ├── Project_Map.png
+│       ├── Rate_Shock_Model.png
+│       └── Refinance_Analysis.png
 │
 ├── docs/
 │   ├── phase1_workbook_brief.md       # Business questions, scope, formula families
