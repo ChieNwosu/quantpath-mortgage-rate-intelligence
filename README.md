@@ -130,6 +130,7 @@ See [`excel/README.md`](excel/README.md) for a full sheet-by-sheet guide.
 
 ## About This Project
 
-This project is part of the **QuantPath** portfolio — a series of financial analytics projects connecting academic coursework, real-world datasets, and modern data tooling. Phase 2 will extend the analysis into R-based time-series modeling as part of Applied Time Series Analysis coursework at National Chengchi University (NCCU).
+This project is part of the **QuantPath** portfolio — a series of financial analytics projects connecting academic coursework, real-world datasets, and modern data tooling. Phase 2 will extend the analysis into R-based time-series modeling as part of Applied Time Series Analysis coursework at North Carolina Central University (NCCU).
 
 **GitHub:** [ChieNwosu](https://github.com/ChieNwosu)
+**LinkedIn:** [ChiemelaJosephNwosu](https://www.linkedin.com/in/chiemela-nwosu-23a791144) 
