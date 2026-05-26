@@ -10,7 +10,11 @@
 
 This repository contains a multi-phase financial analytics project built around the FRED/Freddie Mac 30-Year Fixed Mortgage Rate series (MORTGAGE30US). The project translates historical and current mortgage-rate data into practical household finance scenarios and decision-support outputs.
 
+This project connects applied Excel-based analytics, financial modeling, and R-focused learning from IBM's Data Analytics with Excel and R Professional Certificate (Coursera) with my broader QuantPath analytics portfolio.
+
 Phase 1 is a fully functional Excel workbook that answers five business questions about mortgage affordability, payment sensitivity, lifetime interest burden, and refinance decision-making. It is designed as a reusable decision-support template: the rate environment is sourced from real FRED data, while borrower and refinance assumptions are configurable inputs.
+
+> **Note:** The IBM certificate connection represents applied learning — not a completed IBM capstone project.
 
 ---
 
@@ -19,8 +23,8 @@ Phase 1 is a fully functional Excel workbook that answers five business question
 | Phase | Description | Status | Tech |
 |---|---|---|---|
 | Phase 1 | Excel financial modeling & dashboard | ✅ Complete | Excel, FRED data |
-| Phase 2 | R time-series analysis layer | 🔲 Planned | R, tidyverse, forecast |
-| Phase 3 | SQL / cloud data layer | 🔲 Planned | SQL, AWS Athena, S3 |
+| Phase 2 | R time-series analysis layer | 🔲 Planned | R, tidyverse |
+| Phase 3 | SQL / cloud data layer | 🔲 Planned | SQL (planned) |
 
 ---
 
@@ -33,6 +37,25 @@ Phase 1 is a fully functional Excel workbook that answers five business question
 | BQ3 | How does the interest-rate environment affect total interest paid over the full life of the loan? | Rate_Shock_Model; Amortization_Schedule; Dashboard |
 | BQ4 | Given a fixed monthly payment budget, how much loan principal is affordable at different mortgage rates? | Rate_Shock_Model; Dashboard |
 | BQ5 | Under what conditions does refinancing become financially attractive, and how long does it take to break even? | Refinance_Analysis; Dashboard |
+
+---
+
+## Workbook Assumptions (Configurable Inputs)
+
+The workbook models the following user-configurable inputs on the **Assumptions** sheet:
+
+- Home price
+- Down payment percentage
+- Loan amount (derived)
+- Latest / base mortgage rate (from FRED data)
+- Target monthly payment budget
+- Remaining refinance balance
+- Current mortgage rate
+- Proposed refinance rate
+- Closing costs
+- Expected holding period
+
+> **Scope note:** The workbook does *not* model income, monthly debt, DTI ratio, credit score, taxes, insurance, PMI, or ARM loans. It focuses on principal-and-interest scenarios using fixed-rate assumptions.
 
 ---
 
@@ -79,7 +102,7 @@ quantpath-mortgage-rate-intelligence/
 │   ├── phase1_workbook_brief.md       # Business questions, scope, formula families
 │   ├── data_dictionary.md             # Column and named range definitions
 │   ├── formula_reference.md           # Formula patterns and sign convention
-│   └── roadmap.md                     # Phase 1–3 roadmap with honest status
+│   └── roadmap.md                     # Phase 1-3 roadmap with honest status
 │
 ├── specs/                             # Kiro spec-driven development artifacts
 │   ├── requirements.md
@@ -100,7 +123,7 @@ quantpath-mortgage-rate-intelligence/
 **Series**: MORTGAGE30US — 30-Year Fixed Rate Mortgage Average in the United States  
 **Provider**: Federal Reserve Bank of St. Louis (FRED) / Freddie Mac Primary Mortgage Market Survey  
 **Frequency**: Weekly (Thursday)  
-**Coverage**: April 2, 1971 – May 14, 2026 (~2,877 observations)  
+**Coverage**: April 2, 1971 - May 14, 2026 (~2,877 observations)  
 **Units**: Percent, not seasonally adjusted  
 **URL**: https://fred.stlouisfed.org/series/MORTGAGE30US
 
@@ -124,13 +147,18 @@ See [`excel/README.md`](excel/README.md) for a full sheet-by-sheet guide.
 - **Microsoft Excel** — financial modeling, PMT/PV/CUMIPMT/PPMT formula families, named ranges, conditional formatting
 - **FRED / Freddie Mac** — primary mortgage rate data source
 - **Python / openpyxl** — workbook build automation (spec-driven development)
-- **Kiro** — spec-driven development workflow (requirements → design → tasks)
+- **Kiro** — spec-driven development workflow (requirements -> design -> tasks)
 
 ---
 
 ## About This Project
 
-This project is part of the QuantPath portfolio — a series of financial analytics projects connecting academic coursework, professional certificate learning, real-world datasets, and modern data tooling. Phase 1 connects to applied Excel-based analytics and financial modeling, while Phase 2 will extend the analysis into R-based time-series modeling as part of IBM’s Data Analytics with Excel and R Professional Certificate learning path and Applied Time Series Analysis coursework at North Carolina Central University.
+This project is part of the **QuantPath** portfolio — a series of financial analytics projects connecting academic coursework, professional certificate learning, real-world datasets, and modern data tooling.
 
-**GitHub:** [ChieNwosu](https://github.com/ChieNwosu)
-**LinkedIn:** [ChiemelaJosephNwosu](https://www.linkedin.com/in/chiemela-nwosu-23a791144) 
+Phase 2 will extend the analysis into R-based time-series modeling, connecting to both IBM's Data Analytics with Excel and R Professional Certificate learning path and Applied Time Series Analysis coursework at North Carolina Central University.
+
+**Author:** Chiemela Joseph Nwosu  
+Undergraduate Information Technology student at North Carolina Central University, concentrating in Data Analytics.
+
+**GitHub:** [ChieNwosu](https://github.com/ChieNwosu)  
+**LinkedIn:** [Chiemela Joseph Nwosu](https://www.linkedin.com/in/chiemela-nwosu-23a791144)

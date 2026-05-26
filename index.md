@@ -13,7 +13,9 @@ title: Home
 
 The **QuantPath Mortgage Rate Intelligence Stack** is a multi-phase financial analytics project that transforms mortgage rate data into actionable borrower insights. Phase 1 delivers a production-ready Excel workbook that models loan affordability, payment sensitivity, lifetime interest costs, amortization schedules, and refinance decision support.
 
-This project demonstrates end-to-end financial modeling capabilities, from data ingestion to interactive dashboard design, with a roadmap extending into time-series forecasting (R), SQL-based data warehousing, and cloud-native analytics architecture.
+This project connects applied Excel-based analytics, financial modeling, and R-focused learning from IBM's Data Analytics with Excel and R Professional Certificate (Coursera) with my broader QuantPath analytics portfolio.
+
+> **Note:** The IBM certificate connection represents applied learning — not a completed IBM capstone project.
 
 ---
 
@@ -41,7 +43,7 @@ Borrowers, lenders, and financial advisors need a decision-support tool that:
 **Frequency:** Weekly  
 **Coverage:** Historical mortgage rates from 1971 to present
 
-The dataset provides the historical and current rate environment. Borrower-specific assumptions (loan amount, down payment, credit profile, refinance scenarios) are configurable model inputs.
+The dataset provides the historical and current rate environment. Borrower-specific assumptions (loan amount, down payment, refinance scenarios) are configurable model inputs.
 
 ---
 
@@ -50,25 +52,43 @@ The dataset provides the historical and current rate environment. Borrower-speci
 The Excel workbook is a **reusable financial modeling template** that:
 
 1. **Ingests mortgage rate data** from the FRED/Freddie Mac series
-2. **Calculates affordability metrics** based on borrower income and debt constraints
-3. **Models payment sensitivity** across rate scenarios (current, historical, stress-test)
+2. **Models payment sensitivity** across rate scenarios (current, historical, stress-test)
+3. **Calculates loan affordability** based on a target monthly payment budget
 4. **Generates full amortization schedules** with principal/interest breakdowns
 5. **Evaluates refinance opportunities** with break-even analysis and decision flags
-6. **Presents results in an interactive dashboard** with KPI cards and scenario comparisons
+6. **Presents results in a dashboard** with KPI cards and scenario comparisons
+
+---
+
+## Workbook Assumptions (Configurable Inputs)
+
+The **Assumptions** sheet accepts the following user-configurable inputs:
+
+- Home price
+- Down payment percentage
+- Loan amount (derived)
+- Latest / base mortgage rate (from FRED data)
+- Target monthly payment budget
+- Remaining refinance balance
+- Current mortgage rate
+- Proposed refinance rate
+- Closing costs
+- Expected holding period
+
+> **Scope note:** The workbook does *not* model income, monthly debt, DTI ratio, credit score, taxes, insurance, PMI, or ARM loans. It focuses on principal-and-interest scenarios using fixed-rate assumptions.
 
 ---
 
 ## Business Questions Answered
 
-### 1. Affordability Analysis
-- What is the maximum home price a borrower can afford at the current mortgage rate?
-- How does affordability change across different rate environments?
-- What monthly payment fits within the borrower's budget?
-
-### 2. Payment Sensitivity
+### 1. Payment Sensitivity & Rate Shock
 - How much does a 1% rate increase affect monthly payments?
 - What is the payment difference between current rates and historical averages?
 - How do rate shocks impact long-term affordability?
+
+### 2. Loan Affordability
+- Given a fixed monthly payment budget, how much loan principal is affordable at different mortgage rates?
+- How does affordability change across different rate environments?
 
 ### 3. Refinance Decision Support
 - Should the borrower refinance at current rates?
@@ -78,7 +98,7 @@ The Excel workbook is a **reusable financial modeling template** that:
 
 ### 4. Lifetime Interest Analysis
 - What is the total interest paid over the loan term?
-- How does the interest burden change with different rates or loan terms?
+- How does the interest burden change with different rates?
 - What is the principal-to-interest ratio over time?
 
 ---
@@ -90,7 +110,7 @@ The workbook is organized into **7 interconnected worksheets**:
 | Worksheet | Purpose |
 |-----------|---------|
 | **Dashboard** | Executive summary with KPI cards and scenario comparisons |
-| **Assumptions** | Centralized input hub for borrower profile and loan parameters |
+| **Assumptions** | Centralized input hub for loan parameters and refinance scenario |
 | **Rate_Data** | FRED/Freddie Mac mortgage rate time series |
 | **Rate_Shock_Model** | Payment calculations across current, historical, and stress-test rates |
 | **Amortization_Schedule** | Full loan amortization with principal/interest breakdown |
@@ -101,17 +121,17 @@ The workbook is organized into **7 interconnected worksheets**:
 
 ## Key Excel Formulas Used
 
-### Affordability Calculation
+### Monthly Payment Calculation
 ```excel
 =PMT(rate/12, term*12, -loan_amount)
 ```
 Calculates the monthly payment for a given rate, term, and loan amount.
 
-### Maximum Affordable Home Price
+### Maximum Affordable Loan (from budget)
 ```excel
-=(max_monthly_payment / PMT(rate/12, term*12, -1)) * (1 - down_payment_pct)
+=PV(rate/12, term*12, -target_monthly_payment)
 ```
-Reverse-engineers the maximum home price from the target monthly payment.
+Reverse-engineers the maximum loan principal from the target monthly payment.
 
 ### Amortization Schedule
 ```excel
@@ -128,8 +148,8 @@ Calculates how many months it takes for monthly savings to offset closing costs.
 
 ### Refinance Decision Logic
 ```excel
-=IF(AND(monthly_savings > 0, breakeven_months < max_acceptable_breakeven), 
-    "Refinance Makes Sense", 
+=IF(AND(monthly_savings > 0, breakeven_months < holding_period_months),
+    "Refinance Recommended",
     "Stay with Current Loan")
 ```
 
@@ -142,16 +162,15 @@ Calculates how many months it takes for monthly savings to offset closing costs.
 2. Paste the data into the `Rate_Data` worksheet
 3. The workbook automatically pulls the most recent rate into the `Assumptions` sheet
 
-### Step 2: Configure Borrower Assumptions
+### Step 2: Configure Assumptions
 Navigate to the `Assumptions` worksheet and update:
-- **Income & Debt:** Annual income, monthly debt obligations, target debt-to-income ratio
-- **Loan Parameters:** Home price, down payment, loan term, credit score
-- **Refinance Scenario:** Current loan balance, current rate, proposed rate, closing costs
+- **Loan parameters:** Home price, down payment percentage, target monthly budget
+- **Refinance scenario:** Remaining balance, current rate, proposed rate, closing costs, holding period
 
 ### Step 3: Review the Dashboard
 The `Dashboard` worksheet displays:
-- **Affordability KPIs:** Maximum affordable home price, monthly payment, loan amount
-- **Rate Shock Comparison:** Payment differences across rate scenarios
+- **Rate Shock KPIs:** Payment differences across rate scenarios
+- **Affordability:** Maximum affordable loan at different rates
 - **Refinance Decision:** Monthly savings, break-even period, recommendation
 
 ### Step 4: Drill into Details
@@ -163,27 +182,20 @@ The `Dashboard` worksheet displays:
 
 ## Workbook Screenshots
 
-> **Note:** Copy the following files from your local Excel Projects folder into the `screenshots/` folder before publishing:
-> - `Amortization_QA.png`
-> - `Assumptions.png`
-> - `Project_Map.png`
-> - `Rate_Shock_Model.png`
-> - `Refinance_Analysis.png`
-
 ### Project Map
-![Project Map](screenshots/Project_Map.png)
+![Project Map](screenshots/workbook/Project_Map.png)
 
 ### Assumptions (Input Panel)
-![Assumptions](screenshots/Assumptions.png)
+![Assumptions](screenshots/workbook/Assumptions.png)
 
 ### Rate Shock Model
-![Rate Shock Model](screenshots/Rate_Shock_Model.png)
+![Rate Shock Model](screenshots/workbook/Rate_Shock_Model.png)
 
 ### Amortization Schedule QA
-![Amortization Schedule](screenshots/Amortization_QA.png)
+![Amortization Schedule](screenshots/workbook/Amortization_QA.png)
 
 ### Refinance Analysis
-![Refinance Analysis](screenshots/Refinance_Analysis.png)
+![Refinance Analysis](screenshots/workbook/Refinance_Analysis.png)
 
 ---
 
@@ -191,32 +203,35 @@ The `Dashboard` worksheet displays:
 
 ### Phase 1 Scope
 - **Static rate data:** Requires manual updates from FRED (no live API integration)
-- **Single-borrower model:** Does not support co-borrower scenarios or joint income
+- **Single-borrower model:** Does not support co-borrower scenarios
 - **Fixed-rate loans only:** Does not model adjustable-rate mortgages (ARMs)
 - **No tax/insurance:** Does not include property taxes, homeowners insurance, or PMI
+- **No income/DTI modeling:** Does not model borrower income or debt-to-income ratios
 - **No prepayment modeling:** Does not calculate the impact of extra principal payments
 
 ### Data Constraints
 - **Weekly frequency:** Rate data is weekly; daily rate changes are not captured
 - **National average:** Rates are U.S. national averages; regional variations are not modeled
-- **Historical data only:** No forward-looking rate forecasts
+- **Historical data only:** No forward-looking rate forecasts (planned for Phase 2)
 
 ---
 
-## Phase 2 Roadmap: R-Based Time Series Analysis
+## Phase 2 Roadmap: R-Based Time-Series Analysis
 
-Phase 2 will extend the Excel foundation with **R-based time-series forecasting** aligned with Applied Time Series Analysis coursework at NCCU.
+Phase 2 will extend the Excel foundation with an **R-based time-series analysis layer** connecting to Applied Time Series Analysis coursework at NCCU and IBM's Data Analytics with Excel and R Professional Certificate learning path.
 
-### Planned Capabilities
-- **ARIMA/SARIMA modeling** of mortgage rate trends
-- **Forecast accuracy evaluation** (RMSE, MAE, MAPE)
-- **Scenario generation** for stress-testing affordability models
-- **Automated data pipeline** from FRED API to R to Excel
+### Planned Focus Areas
+- Stationarity testing (ADF, KPSS)
+- Rolling averages and rolling volatility
+- Rate-regime analysis
+- Historical percentile analysis
+- Seasonality checks
+- Optional baseline forecasting
 
-### Deliverables
-- R scripts for data ingestion, modeling, and forecasting
-- Forecast outputs exported to Excel for dashboard integration
-- Technical documentation of model selection and validation
+### Deliverables (Planned)
+- R scripts for data ingestion and exploratory analysis
+- Time-series diagnostics and visualizations
+- Documentation of methods and interpretation
 
 **Status:** Planned (not yet implemented)
 
@@ -224,75 +239,23 @@ Phase 2 will extend the Excel foundation with **R-based time-series forecasting*
 
 ## Future Extensions
 
-### Phase 3: SQL Data Warehouse
-- Centralized mortgage rate and borrower data storage
-- Historical trend analysis and cohort segmentation
-- Support for multi-borrower scenarios
-
-### Phase 4: Cloud-Native Architecture
-- **AWS-aligned design:** S3 for data storage, Lambda for ETL, RDS for structured data
-- **Databricks integration:** Scalable time-series modeling and feature engineering
-- **Tableau Public dashboards:** Interactive visualizations for public portfolio presentation
-
-### Phase 5: Advanced Analytics
-- Machine learning models for rate prediction
-- Borrower risk scoring and credit profile optimization
-- Refinance opportunity alerts based on rate thresholds
-
-**Status:** All future phases are planned but not yet implemented.
+- **Phase 3: SQL / Cloud Data Layer** — Centralized data storage and querying (planned)
+- **Databricks, Tableau, AWS** — Future extensions only (not yet scoped)
 
 ---
 
 ## Technical Stack
 
-### Phase 1 (Completed)
+### Phase 1 (Complete)
 - **Excel:** Financial modeling, dashboard design, formula-based calculations
 - **Data Source:** FRED/Freddie Mac `MORTGAGE30US` series
+- **Python / openpyxl:** Workbook build automation (spec-driven development)
+- **Kiro:** Spec-driven development workflow
 - **Version Control:** Git/GitHub
 
 ### Phase 2 (Planned)
-- **R:** Time-series analysis, ARIMA/SARIMA modeling, forecasting
-- **R Packages:** `forecast`, `tseries`, `quantmod`, `ggplot2`
-
-### Phase 3+ (Planned)
-- **SQL:** PostgreSQL or MySQL for data warehousing
-- **Cloud:** AWS (S3, Lambda, RDS), Databricks
-- **Visualization:** Tableau Public
-
----
-
-## Repository Structure
-
-```
-quantpath-mortgage-rate-intelligence/
-├── excel/                          # Phase 1 Excel workbook
-│   └── Rate_Shock_Loan_Affordability_Refinance_Dashboard.xlsx
-├── data/                           # Raw mortgage rate data
-│   └── MORTGAGE30US.csv
-├── screenshots/                    # Workbook screenshots for documentation
-│   ├── dashboard.png
-│   ├── rate_shock_model.png
-│   ├── amortization_schedule.png
-│   └── refinance_analysis.png
-├── docs/                           # Technical documentation
-│   ├── workbook_guide.md
-│   ├── formula_reference.md
-│   └── qa_validation.md
-├── phase2_r/                       # Phase 2 R scripts (scaffold)
-│   └── README.md
-├── phase3_sql/                     # Phase 3 SQL scripts (scaffold)
-│   └── README.md
-├── specs/                          # Kiro spec files
-│   └── polish-excel-workbook/
-│       ├── requirements.md
-│       ├── design.md
-│       └── tasks.md
-├── _config.yml                     # GitHub Pages configuration
-├── index.md                        # GitHub Pages homepage
-├── README.md                       # Repository README
-├── CHANGELOG.md                    # Version history
-└── .gitignore                      # Git ignore rules
-```
+- **R:** Time-series analysis, rolling statistics, regime analysis
+- **R Packages:** `tidyverse`, `tseries`, `ggplot2`, `fredr`
 
 ---
 
@@ -322,6 +285,7 @@ This project is licensed under the MIT License. See `LICENSE` for details.
 
 - **Data Source:** Federal Reserve Economic Data (FRED) / Freddie Mac
 - **Coursework:** Applied Time Series Analysis, NCCU
+- **Certificate:** IBM Data Analytics with Excel and R Professional Certificate (Coursera)
 - **Tools:** Microsoft Excel, R, Git/GitHub, Jekyll (GitHub Pages)
 
 ---
@@ -329,9 +293,9 @@ This project is licensed under the MIT License. See `LICENSE` for details.
 ## Contact
 
 For questions, feedback, or collaboration opportunities:
-- **Email:** [JosephCNwosu@yahoo.com]
+- **Email:** JosephCNwosu@yahoo.com
 - **GitHub Issues:** [Open an issue](https://github.com/ChieNwosu/quantpath-mortgage-rate-intelligence/issues)
 
 ---
 
-**Last Updated:** May 25, 2026
+**Last Updated:** May 26, 2026
