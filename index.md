@@ -164,26 +164,26 @@ The `Dashboard` worksheet displays:
 ## Workbook Screenshots
 
 > **Note:** Copy the following files from your local Excel Projects folder into the `screenshots/` folder before publishing:
-> - `Amortization QA.png`
+> - `Amortization_QA.png`
 > - `Assumptions.png`
-> - `Project Map.png`
-> - `Rate Shock Model.png`
-> - `Refinance Analysis.png`
+> - `Project_Map.png`
+> - `Rate_Shock_Model.png`
+> - `Refinance_Analysis.png`
 
 ### Project Map
-![Project Map](screenshots/Project Map.png)
+![Project Map](screenshots/Project_Map.png)
 
 ### Assumptions (Input Panel)
 ![Assumptions](screenshots/Assumptions.png)
 
 ### Rate Shock Model
-![Rate Shock Model](screenshots/Rate Shock Model.png)
+![Rate Shock Model](screenshots/Rate_Shock_Model.png)
 
 ### Amortization Schedule QA
-![Amortization Schedule](screenshots/Amortization QA.png)
+![Amortization Schedule](screenshots/Amortization_QA.png)
 
 ### Refinance Analysis
-![Refinance Analysis](screenshots/Refinance Analysis.png)
+![Refinance Analysis](screenshots/Refinance_Analysis.png)
 
 ---
 
@@ -308,7 +308,7 @@ This project demonstrates:
 - Portfolio-ready documentation and version control practices
 
 **GitHub:** [ChieNwosu](https://github.com/ChieNwosu)  
-**LinkedIn:** [Add your LinkedIn profile here]
+**LinkedIn:** [Chiemela Joseph Nwosu](https://www.linkedin.com/in/chiemela-nwosu-23a791144/)
 
 ---
 
