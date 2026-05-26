@@ -299,7 +299,7 @@ quantpath-mortgage-rate-intelligence/
 ## About the Author
 
 **Chiemela Joseph Nwosu**  
-Information Technology Student, Applied Data Analysis — North Carolina Central University (NCCU)
+Undergraduate Information Technology student at North Carolina Central University, concentrating in Data Analytics.
 
 This project demonstrates:
 - Financial modeling and dashboard design in Excel
